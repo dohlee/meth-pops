@@ -1,5 +1,6 @@
 import re
 
+
 def get_genomic_coordinates(cigar, start, reverse=False):
     ashes = re.findall(r'(\d+)([A-Z]{1})', cigar)
 

@@ -6,6 +6,7 @@ def colored(string, color='green'):
     elif color in ['gray', 'grey']:
         return '\033[1;47m' + string + '\033[1;m'
 
+
 def parse_genomic_region(string):
     chromosome, coordinates = string.split(':')
     start, end = list(map(int, coordinates.split('-')))
