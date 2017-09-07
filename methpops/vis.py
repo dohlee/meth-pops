@@ -9,13 +9,14 @@ matplotlib.use('agg')
 import matplotlib.pyplot as plt
 
 from read import generate_read_from_bam_line
-from utils import colored
+from utils import colored, parse_genomic_region
 
 def parse_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument("-i", "--input", required=True, help="Input file")
     parser.add_argument("-o", "--output", required=True, help="Output directory")
     parser.add_argument("-p", "--threads", type=int, default=1, help="Number of threads to be used")
+    parser.add_argument("-r", "--region", type=str, default=None, help="Genomic region to visualize")
 
     return parser.parse_args()
 
@@ -67,7 +68,7 @@ def get_reads_aligned_to_region(inputFile, chromosome, start, end):
     return reads
 
 def pretty_print(reads):
-    if len(reads) > 50:
+    if len(reads) > 75:
         print("There are many reads to show. You may think of creating a metylation lollipop plot instead.")
         return
 
@@ -85,6 +86,13 @@ def pretty_print(reads):
 def pretty_print_region(sortedBamFile, chromosome, start, end):
     reads = get_reads_aligned_to_region(sortedBamFile, chromosome, start, end)
     pretty_print(reads)
+
+def print_region(sortedBamFile, chromosome, start, end):
+    reads = get_reads_aligned_to_region(sortedBamFile, chromosome, start, end)
+    startIndex = reads[0].position
+
+    for read in reads:
+        print(' ' * (read.position - startIndex) + read.get_full_CpG_colored_string())
 
 if __name__ == '__main__':
     args = parse_arguments()
@@ -109,7 +117,11 @@ if __name__ == '__main__':
         #     print(start, end)
         #     pretty_print(reads)
 
-    pretty_print_region(sortedBamFile, 9, 130923665, 130923765)
+    if args.region == None:
+        print_region(sortedBamFile, 8, 97643825, 97644200)
+    else:
+        chromosome, start, end = parse_genomic_region(args.region)
+        print_region(sortedBamFile, chromosome, start, end)
 
     # reads = get_reads_aligned_to_region(os.path.join(args.output, sortedFileName), 1, 3188392, 3188689)
     # pretty_print(reads)
