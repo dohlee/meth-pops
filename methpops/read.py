@@ -27,7 +27,6 @@ class Read:
         self.seq = seq
         self.quality = quality
         self.methylation = self._parse_tags(args)
-        # print(self.methylation)
 
     def _parse_tags(self, tags):
         for tag in tags:
