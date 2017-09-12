@@ -2,6 +2,7 @@ import subprocess
 import utils
 import os
 
+
 def view(bam, genomicRegion=None):
     if genomicRegion is not None:
 
@@ -40,7 +41,7 @@ def try_samtools_sort(bam, outputDirectory, threads):
     sortedBamName = utils.get_sorted_bam_file_name(bam)
     outputFile = os.path.join(outputDirectory, sortedBamName)
 
-    samtools.sort(bam, outputFile, threads)
+    sort(bam, outputFile, threads)
 
     if not utils.check_if_sorted_bam_exists(bam, outputDirectory):
         raise Exception('Samtools sort did not successfully finish.')
@@ -61,4 +62,4 @@ def try_samtools_index(bam, outputDirectory, threads):
         sortedBamName = utils.get_sorted_bam_file_name(bam)
         sortedBam = os.path.join(outputDirectory, sortedBamName)
 
-        samtools.index(sortedBam)
+        index(sortedBam)
