@@ -1,5 +1,6 @@
 import subprocess
 import utils
+import os
 
 def view(bam, genomicRegion=None):
     if genomicRegion is not None:
