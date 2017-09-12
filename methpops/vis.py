@@ -28,6 +28,10 @@ def pretty_print(reads):
         print("There are many reads to show. You may think of creating a methylation lollipop plot instead.")
         return
 
+    if len(reads) == 0:
+        print("There aren't any reads to show.")
+        return
+
     positions = get_sorted_list_of_CpG_positions(reads)
 
     for read in reads:
@@ -48,6 +52,10 @@ def pretty_print_region(sortedBamFile, genomicRegion):
 
 def print_region(sortedBamFile, genomicRegion):
     reads = get_reads_aligned_to_region(sortedBamFile, genomicRegion)
+    if len(reads) == 0:
+        print("There aren't any reads to show.")
+        return
+
     startIndex = reads[0].position
 
     for read in reads:
